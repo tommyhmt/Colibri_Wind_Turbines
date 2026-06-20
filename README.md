@@ -30,7 +30,7 @@ Set up mount point so there's no need to change the storage explorer for differe
 
 **transform_functions.py** - create_missing_records because "the system is known to sometimes miss entries due to sensor malfunctions"
 
-                         add_anomaly based on business logic which is "defined as turbines whose output is outside of 2 standard deviations from the mean."
+ add_anomaly based on business logic which is "defined as turbines whose output is outside of 2 standard deviations from the mean."
 
 **Notebook** folder contains 1 file:
 
