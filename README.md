@@ -11,6 +11,8 @@ Files are dropped daily into the lake with a new folder named sensibly as shown 
 
 **Architecture:**
 
+Create Unity Catalog.
+
 Use Lakeflow Spark Declarative Pipelines, in this case making use of its auto loader feature and data quality constraints.
 
 Set up mount point so there's no need to change the storage explorer for different environments.
@@ -39,3 +41,5 @@ Bronze table will only ever pick up new records
 
 Silver and gold table should only ever add a new partition of data, i.e. old partitions of data remain untouched unless full table refresh is triggered.
 <img width="1710" height="482" alt="image" src="https://github.com/user-attachments/assets/a2354e9a-3804-47f7-8aaa-23bff81e9412" />
+
+Number of records for this dataset is as expected because there are 15 turbines and 31 days in March 2022, i.e. 15 * 31 = 465 in gold and 465 * 24 = 11,160 in bronze and silver.
