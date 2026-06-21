@@ -5,11 +5,11 @@ silver_schema = StructType(
         StructField('date', DateType()),
         StructField('timestamp', TimestampType()),
         StructField('turbine_id', IntegerType()),
-        StructField('wind_speed', DecimalType(4, 2)),
-        StructField('wind_direction', IntegerType()),
-        StructField('power_output', DecimalType(4, 2)),
+        StructField('wind_speed', DecimalType(4, 2), False, {"default":0}),
+        StructField('wind_direction', IntegerType(), False, {"default":0}),
+        StructField('power_output', DecimalType(4, 2), False, {"default":0}),
         StructField('anomaly', BooleanType()),
-        StructField('input_file_name', StringType()),
+        StructField('input_file_name', StringType(), False, {"default":"UNDEF"}),
         StructField('import_timestamp', TimestampType())
         ]
     )
