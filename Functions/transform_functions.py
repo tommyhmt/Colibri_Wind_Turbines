@@ -1,5 +1,6 @@
 # import libraries
-from pyspark.sql.functions import col, lit, current_timestamp, to_date, left, avg, stddev
+from pyspark.sql.functions import col, lit, current_timestamp, to_date, left, avg, stddev, when, coalesce, raise_error
+from pyspark.sql.types import StructType
 from pyspark.sql import DataFrame
 
 def create_missing_records(df: DataFrame) -> DataFrame:
@@ -42,3 +43,20 @@ def add_anomaly(df: DataFrame) -> DataFrame:
     final_df = final_df.withColumn("anomaly", (col("power_output") < col("avg_power_output") - col("stddev_power_output") * lit(2)) | (col("power_output") > col("avg_power_output") + col("stddev_power_output") * lit(2)))
 
     return final_df
+
+def apply_schema(df: DataFrame, schema: StructType) -> DataFrame:
+
+    schema_columns = [
+        (
+        coalesce(col(x.name), lit(f"{x.metadata['default']}"))
+        if "default" in x.metadata
+            else col(x.name)
+        ).cast(x.dataType).alias(x.name)
+        if x.name.upper() in (c.upper() for c in df.columns)
+            else lit(None).cast(x.dataType).alias(x.name)
+        for x in schema.fields
+    ]
+
+    df = df.select(*schema_columns)
+
+    return df
